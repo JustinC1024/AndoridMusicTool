@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>singer</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <a class="btn btn-primary" href="/web/song_index">切换</a>
+    <a type="button" class="btn btn-outline-success" style="float: right" href="#"
+    data-toggle="modal" data-target="#addModal">增加</a>
+    <div id="detail" style="margin-top: -39px">
+        <input id="flag" type="hidden" value="0">
+        <h1 style="font-size: 25px" class="text-center">歌手表</h1>
+        <table class="table table-hover" style="text-align: center">
+            <tr>
+                <th width="25%">序号</th>
+                <th width="25%">歌手名</th>
+                <th width="25%">歌手编号</th>
+                <th width="25%">操作</th>
+            </tr>
+
+            {% for list in singer %}
+                <tr>
+                    <td> {{ list[0] }} </td>
+                    <td> {{ list[1] }} </td>
+                    <td>{{ list[2] }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a class="btn btn-primary btn-sm" href="#"
+                               data-toggle="modal" data-target="#updateModal{{ list[0] }}">更改</a>
+                        <a class="btn btn-danger btn-sm" href="#"
+                           onclick="deleteWarm({{ list[0] }})">删除</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">
+                            增加
+                        </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addForm">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">&nbsp;歌&nbsp;手&nbsp;名：</span>
+                                </div>
+                                <input type="text" class="form-control" name="name">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">歌手编号：</span>
+                                </div>
+                                <input type="text" class="form-control" name="code">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addSinger()">
+                            提交
+                        </button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+        {% for list in singer %}
+            <div class="modal fade" id="updateModal{{ list[0] }}" tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="myModalLabel">
+                                修改歌手内容
+                            </h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="updateForm{{ list[0] }}">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">&nbsp;&nbsp;序&nbsp;&nbsp;号&nbsp;&nbsp;：</span>
+                                    </div>
+                                    <input type="text" class="form-control" readonly="readonly" name="singerId" value="{{ list[0] }}">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">&nbsp;歌&nbsp;手&nbsp;名：</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="name" value="{{ list[1] }}">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">歌手编号：</span>
+                                    </div>
+                                    <input type="text" class="form-control" name="code" value="{{ list[2] }}">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="updateSinger({{ list[0] }})">
+                                提交
+                            </button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal -->
+            </div>
+        {% endfor %}
+    </div>
+</body>
+<script type="text/javascript">
+    {#singer改#}
+    function updateSinger(x) {
+        var updateForm="#updateForm"+x;
+        $.ajax({
+            type:"post",
+            url:"/web/singer_update",
+            data:$(updateForm).serialize(),
+            dataType:"json",
+            success:function (data) {
+                if (data) {
+                    alert("修改成功")
+                    location.reload();
+                }else {
+                    alert("修改失败")
+                }
+            },
+            error:function () {
+                alert("未知错误")
+            }
+        })
+    }
+    {#singer增#}
+    function addSinger() {
+        $.ajax({
+            type:"post",
+            url:"/web/singer_add",
+            data:$("#addForm").serialize(),
+            dataType:"json",
+            success:function (data) {
+                if (data) {
+                    alert("增加成功")
+                    location.reload();
+                }else {
+                    alert("增加失败")
+                }
+            },
+            error:function () {
+                alert("未知错误")
+            }
+        })
+    }
+     {#删除警告#}
+    function deleteWarm(x) {
+        var warming=confirm("确认要删除此信息");
+        if (warming==true) {
+            deleteSinger(x)
+        }
+    }
+    {#singer删#}
+    function deleteSinger(x) {
+        $.ajax({
+            type:"get",
+            url:"/web/singer_delete",
+            data:{singerId: x},
+            dataType:"json",
+            success:function (data) {
+                if (data) {
+                    alert("删除成功");
+                    location.reload();
+                }else {
+                    alert("删除失败")
+                }
+            },
+            error:function () {
+                alert("未知错误")
+            }
+        })
+    }
+</script>
+</html>

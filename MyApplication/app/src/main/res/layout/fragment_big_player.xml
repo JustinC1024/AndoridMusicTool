@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/music_one">
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="10dp"
+        android:background="#00000000"
+        android:id="@+id/bigBack"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:id="@+id/bigTitle"
+        android:textColor="#fff"
+        android:textSize="20dp"
+        android:text="Never Really Over"
+        android:singleLine="true"
+        android:ellipsize="end"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/bigTitle"
+        android:gravity="center"
+        android:id="@+id/bigArtist"
+        android:textColor="#fff"
+        android:text="Katy Perry"/>
+    <com.example.justin.myapplication.layout.CircleImageViewNo
+        android:layout_width="600px"
+        android:layout_height="600px"
+        android:id="@+id/bigArtistImg"
+        android:layout_marginBottom="190px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/music_eight"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/musicController">
+        <TextView
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="00:00"
+            android:gravity="center"
+            android:id="@+id/musicNowTime"/>
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="18"
+            android:id="@+id/bigSeekBar" />
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:id="@+id/musicTotalTime"
+            android:text="11:11"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/musicController"
+        android:orientation="horizontal">
+        <ImageButton
+            android:background="#00000000"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_prev_white"
+            android:id="@+id/bigPrevious" />
+        <ImageButton
+            android:background="#00000000"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_play_circle"
+            android:id="@+id/bigPlay" />
+        <ImageButton
+            android:background="#00000000"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_weight="1"
+            android:layout_marginTop="20dp"
+            android:src="@drawable/ic_next_white"
+            android:id="@+id/bigNext" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
